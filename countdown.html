@@ -116,6 +116,50 @@
                 font-size: 1.2rem;
             }
         }
+
+        .color-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        input[type="color"] {
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            background: none;
+        }
+
+        .sample-colors {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sample-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            cursor: pointer;
+            transition: transform 0.2s;
+            padding: 0;
+        }
+
+        .sample-btn:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -136,6 +180,21 @@
             <button class="btn-reset" onclick="resetTimer()">Reset</button>
             <button class="btn-fullscreen" onclick="toggleFullScreen()">Full Screen</button>
         </div>
+
+        <div class="color-controls">
+            <div class="color-picker-wrapper">
+                <label for="textColor">เลือกสี:</label>
+                <input type="color" id="textColor" value="#00ff00" oninput="changeColor(this.value)">
+            </div>
+            <div class="sample-colors">
+                <button class="sample-btn" style="background-color: #00ff00;" onclick="changeColor('#00ff00')"></button>
+                <button class="sample-btn" style="background-color: #00ffff;" onclick="changeColor('#00ffff')"></button>
+                <button class="sample-btn" style="background-color: #ff00ff;" onclick="changeColor('#ff00ff')"></button>
+                <button class="sample-btn" style="background-color: #ffff00;" onclick="changeColor('#ffff00')"></button>
+                <button class="sample-btn" style="background-color: #ffa500;" onclick="changeColor('#ffa500')"></button>
+                <button class="sample-btn" style="background-color: #ffffff;" onclick="changeColor('#ffffff')"></button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -145,6 +204,32 @@
 
         const display = document.getElementById('display');
         const customInput = document.getElementById('customTime');
+        const colorInput = document.getElementById('textColor');
+        let currentColor = '#00ff00';
+
+        function changeColor(color) {
+            currentColor = color;
+            colorInput.value = color; // Sync color picker if button clicked
+            // Apply only if not in warning state, or let warning override via CSS class
+            // But since warning uses !important in CSS, we can just set style here.
+            display.style.color = color;
+            display.style.textShadow = `0 0 50px ${hexToRgba(color, 0.3)}`;
+        }
+
+        // Helper to convert hex to rgba for shadow
+        function hexToRgba(hex, alpha) {
+            let r = 0, g = 0, b = 0;
+            if (hex.length == 4) {
+                r = parseInt("0x" + hex[1] + hex[1]);
+                g = parseInt("0x" + hex[2] + hex[2]);
+                b = parseInt("0x" + hex[3] + hex[3]);
+            } else if (hex.length == 7) {
+                r = parseInt("0x" + hex[1] + hex[2]);
+                g = parseInt("0x" + hex[3] + hex[4]);
+                b = parseInt("0x" + hex[5] + hex[6]);
+            }
+            return `rgba(${r},${g},${b},${alpha})`;
+        }
 
         function updateDisplay(seconds) {
             display.innerText = seconds;
