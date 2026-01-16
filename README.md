@@ -17,6 +17,10 @@ A simple, single-file HTML countdown timer designed for presentations, events, o
   **โหมดเต็มหน้าจอ**: สามารถกดปุ่มเพื่อขยายเต็มหน้าจอได้
 - **Responsive Design**: Adjusts font sizes automatically for smaller screens.  
   **รองรับทุกหน้าจอ**: ปรับขนาดตัวอักษรอัตโนมัติสำหรับการแสดงผลบนมือถือหรือแท็บเล็ต
+- **Color Customization**: Pick any color or use quick samples (Green, Cyan, Magenta, Yellow, Orange, White).  
+  **ปรับแต่งสีได้**: เลือกสีตัวเลขได้อิสระ หรือใช้สีตัวอย่าง (เขียว, ฟ้า, ชมพู, เหลือง, ส้ม, ขาว)
+- **Thai Numerals**: Toggle between Hindu-Arabic (123) and Thai (๑๒๓) numerals.  
+  **รองรับเลขไทย**: สลับการแสดงผลระหว่างเลขอารบิกและเลขไทยได้ง่ายๆ
 
 ## How to Use / วิธีการใช้งาน
 
@@ -28,6 +32,10 @@ A simple, single-file HTML countdown timer designed for presentations, events, o
    กรอกตัวเลขวินาทีในช่องแล้วกด **"เริ่ม (กำหนดเอง)"** หรือใช้ปุ่มตัวเลือกเวลาที่มีให้
 4. Click **"Full Screen"** to maximize the display.  
    กดปุ่ม **"Full Screen"** เพื่อแสดงผลเต็มหน้าจอ
+5. Use the **Color Picker** or **Sample Buttons** to change the display color.  
+   ใช้ **ตัวเลือกสี** หรือ **ปุ่มสีตัวอย่าง** เพื่อเปลี่ยนสีตัวเลข
+6. Click **"เปลี่ยนเป็นเลขไทย"** to switch numeral styles.  
+   กดปุ่ม **"เปลี่ยนเป็นเลขไทย"** เพื่อสลับรูปแบบตัวเลข
 
 ## Customization / การปรับแต่ง
 
