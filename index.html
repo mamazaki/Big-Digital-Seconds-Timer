@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Digital Seconds Timer - Custom</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+        }
+
+        #display {
+            font-size: 22rem;
+            /* ปรับขนาดให้สมดุลกับ input */
+            font-weight: bold;
+            /* font-family: 'Courier New', Courier, monospace; */
+            font-family: 'Consolas';
+            color: #00ff00;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        input[type="number"] {
+            padding: 15px;
+            font-size: 1.5rem;
+            width: 150px;
+            border-radius: 10px;
+            border: none;
+            text-align: center;
+            background: #333;
+            color: white;
+            outline: none;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+
+        .btn-custom {
+            background-color: #9b59b6;
+            color: white;
+        }
+
+        /* สีม่วงสำหรับปุ่มกำหนดเอง */
+        .btn-start {
+            background-color: #2980b9;
+            color: white;
+        }
+
+        .btn-stop {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .btn-reset {
+            background-color: #c0392b;
+            color: white;
+        }
+
+        .btn-fullscreen {
+            background-color: #34495e;
+            color: white;
+        }
+
+        .warning {
+            color: #ff4757 !important;
+            text-shadow: 0 0 50px rgba(255, 71, 87, 0.5) !important;
+        }
+
+        @media (max-width: 768px) {
+            #display {
+                font-size: 12rem;
+            }
+
+            input[type="number"] {
+                width: 100px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="display">0</div>
+
+        <div class="input-group">
+            <input type="number" id="customTime" placeholder="ระบุวินาที" min="1">
+            <button class="btn-custom" onclick="startCustomTimer()">เริ่ม (กำหนดเอง)</button>
+        </div>
+
+        <div class="controls">
+            <button class="btn-start" onclick="startTimer(93)">เริ่ม 93 วิ</button>
+            <button class="btn-start" onclick="startTimer(60)">เริ่ม 60 วิ</button>
+            <button class="btn-stop" onclick="stopTimer()">หยุด</button>
+            <button class="btn-reset" onclick="resetTimer()">Reset</button>
+            <button class="btn-fullscreen" onclick="toggleFullScreen()">Full Screen</button>
+        </div>
+    </div>
+
+    <script>
+        let timer;
+        let timeLeft = 0;
+        let isRunning = false;
+
+        const display = document.getElementById('display');
+        const customInput = document.getElementById('customTime');
+
+        function updateDisplay(seconds) {
+            display.innerText = seconds;
+            if (seconds <= 10 && seconds > 0) {
+                display.classList.add('warning');
+            } else {
+                display.classList.remove('warning');
+            }
+        }
+
+        // ฟังก์ชันเริ่มจับเวลาจากค่าที่กรอก
+        function startCustomTimer() {
+            const val = parseInt(customInput.value);
+            if (isNaN(val) || val <= 0) {
+                alert("กรุณากรอกตัวเลขวินาทีที่ถูกต้อง");
+                return;
+            }
+            startTimer(val);
+        }
+
+        function startTimer(duration) {
+            clearInterval(timer);
+            timeLeft = duration;
+            isRunning = true;
+            updateDisplay(timeLeft);
+
+            timer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft >= 0) {
+                    updateDisplay(timeLeft);
+                } else {
+                    clearInterval(timer);
+                    isRunning = false;
+                    alert("Time Out!");
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            isRunning = false;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            timeLeft = 0;
+            updateDisplay(0);
+            customInput.value = ""; // ล้างค่าในช่องกรอก
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
