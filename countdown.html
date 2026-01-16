@@ -160,6 +160,19 @@
         .sample-btn:hover {
             transform: scale(1.1);
         }
+
+        .numeral-toggle-wrapper {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-toggle {
+            background-color: #7f8c8d;
+            color: white;
+            font-size: 1rem;
+            padding: 10px 20px;
+        }
     </style>
 </head>
 
@@ -194,6 +207,10 @@
                 <button class="sample-btn" style="background-color: #ffa500;" onclick="changeColor('#ffa500')"></button>
                 <button class="sample-btn" style="background-color: #ffffff;" onclick="changeColor('#ffffff')"></button>
             </div>
+        </div>
+
+        <div class="numeral-toggle-wrapper">
+            <button id="numeralToggle" class="btn-toggle" onclick="toggleNumeralSystem()">เปลี่ยนเป็นเลขไทย</button>
         </div>
     </div>
 
@@ -231,8 +248,30 @@
             return `rgba(${r},${g},${b},${alpha})`;
         }
 
+        let useThaiNumerals = false;
+        const numeralToggleBtn = document.getElementById('numeralToggle');
+
+        function toggleNumeralSystem() {
+            useThaiNumerals = !useThaiNumerals;
+            numeralToggleBtn.innerText = useThaiNumerals ? "เปลี่ยนเป็นเลขอารบิก" : "เปลี่ยนเป็นเลขไทย";
+            // Update display immediately if timer is not running or just to refresh current view
+            updateDisplay(timeLeft); // Refresh display with current time
+        }
+
+        function toThaiNumerals(num) {
+            const thaiNums = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
+            return num.toString().replace(/\d/g, function (match) {
+                return thaiNums[match];
+            });
+        }
+
         function updateDisplay(seconds) {
-            display.innerText = seconds;
+            let displayValue = seconds;
+            if (useThaiNumerals) {
+                displayValue = toThaiNumerals(seconds);
+            }
+            display.innerText = displayValue;
+
             if (seconds <= 10 && seconds > 0) {
                 display.classList.add('warning');
             } else {
